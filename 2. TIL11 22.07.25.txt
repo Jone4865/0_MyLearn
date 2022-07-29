@@ -1,0 +1,53 @@
+children 소개
+부모 컴포넌트로 정보를 전달하는 children코드를 볼까요?
+// src/App.js
+
+import React from "react";
+
+function User() {
+  return <div></div>;
+}
+
+function App() {
+  return <User>안녕하세요</User>;
+}
+export default App;
+왜 그럴까요? 그 이유는 App 컴포넌트에서 ‘안녕하세요' 라는 정보를 보냈지만, User 컴포넌트에서는 그 정보를 받지 않았기 때문입니다.그런데 위 예시에서는 <User>안녕하세요</User> 이렇게 정보를 보내고 있습니다. <User hello='안녕하세요'> 이렇게 props를 보내던 방식과는 조금 다릅니다. 이것이 children props를 보내는 방식입니다. 그렇다면 자식 컴포넌트에서는 어떻게 정보를 받을까요? 정보를 받는 방식은 기존과 동일합니다. 대신 그 이름이 children 으로 정해져 있습니다. 아래 코드를 입력해보세요. 콘솔에 ‘안녕하세요'가 잘 보이시나요?
+function User(props) { console.log(props.children) return <div></div>; }
+우리는 부모 컴포넌트에서 정보를 보냈을 때, 자식 컴포넌트에서 그 정보를 사용하고 싶다면 props를 통해 정보를 받아와야 했습니다. 하지만 위 예시에서는 User 컴포넌트에서 그 정보를 받고 있지 않기 때문에 화면에 어떠한 문장도 보이지 않고 있는 것 입니다.
+App.js에 App 컴포넌트와 User 컴포넌트가 있습니다. 그리고 App 컴포넌트가 User 컴포넌트를 자식으로 품고 있습니다. 그리고 User 컴포넌트 사이에 ‘안녕하세요' 라는 문장이 있습니다. 근데 yarn start 를 해서 화면을 보면 아무것도 화면에 표시되지 않습니다.
+<Component props={props} /> 와 다른 방식으로 자식 컴포넌트에 정보를 전달해주어도 사용 할 수 있는 props가 있습니다. 바로 children 입니다.
+(2) children 값 받아서 렌더링하기
+import React from "react";
+
+function User(props) {
+  return <div>{props.children}</div>;
+}
+
+function App() {
+  return <User>안녕하세요</User>;
+}
+export default App;
+자, 그럼 위에서의 코드를 수정해보겠습니다. User 컴포넌트에서 props.children을 받아 그대로 렌더링 해준 모습입니다. 이제 화면에 정상적으로 ‘안녕하세요’ 라는 문장이 보입니다!
+2. children 용도
+(1) Layout 컴포넌트를 만들 때 자주 사용
+// src/About.js
+
+import React from "react";
+import Layout from "./components/Layout";
+
+function App() {
+  return (
+
+    <Layout> 
+      <div>여긴 App의 컨텐츠가 들어갑니다.</div>
+    </Layout>
+  );
+}
+export default App;
+이 코드를 통해, Layout에 있는 header가 보여지게 되고, “여긴 App의 컨텐츠가 들어갑니다.” 라는 문장이 Layout의 props로 전달되는 것 입니다. 결과적으로 우리는 header 컴포넌트를 Layout 컴포넌트에서 한번만 작성하면 여러 페이지에서 모두 보여지게 할 수 있는 것 입니다.Layout 컴포넌트를 About 컴포넌트에 또 사용했습니다.
+Layout 컴포넌트 안에는 header 라는 컴포넌트가 있고, header 아래에 {props.children} 를 통해서 props를 받아 렌더링 하고 있습니다. 즉, Layout 컴포넌트가 쓰여지는 모든 곳에서 <Layout>…</Layout> 안에 있는 정보를 받아서 가져올 수 있는 것이죠.
+ 
+
+
+ 출처 - 스파르타코딩클럽(항해99과정):https://hanghae99.spartacodingclub.kr/

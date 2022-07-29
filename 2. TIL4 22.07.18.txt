@@ -1,0 +1,10 @@
+새로고침 시에도 리덕스 내의 데이터를 유지하려면
+
+<form></form> 태그에 onsubmit attribute를 추가하고 return false; 해주면 됩니다.
+ 
+<form onsubmit="return false;">
+    <input type="text"/>
+    <input type="file"/>
+    <button type="submit" id="submit_btn"></button>
+</form>
+출처- https://orbit-orbit.tistory.com/12 [Orbit:티스토리]
