@@ -1,0 +1,14 @@
+Global state와 Local state
+
+Local state (지역상태) 란?
+컴포넌트에서 useState를 이용해서 생성한 state 입니다. 좁은 범위 안에서 생성된 State 라고 생각하시면 됩니다.
+Global state (전역상태)란?
+Global state는 컴포넌트에서 생성되지 않습니다. 중앙화 된 특별한 곳에서 State들이 생성됩니다. 좀 더 쉽게 얘기해서 “중앙 state 관리소” 라고 생각하면 됩니다.
+중앙 State관리소에서 State를 생성하고, 만약 어떤 컴포넌트에서 State가 필요하다면 컴포넌트가 어디에 위치하고 있든 상관없이 State를 불러와서 사용 할 수 있게 됩니다. 이렇게 특정 컴포넌트에 종속되어 있는 것이 아니라 “중앙 state 관리소”에서 생성된 State를 Global state라고 합니다. 그리고 이러한 값들을 관리하는 것을 전역 상태 관리 라고 합니다.
+
+우리는 앞으로 State를 Global state와 Local state라는 것을 따로 구분지어서 표현할 것 입니다.
+
+ 
+
+
+ 출처 - 스파르타코딩클럽(항해99과정):https://hanghae99.spartacodingclub.kr/

@@ -1,0 +1,171 @@
+Payload란?
+(1) 우리가 만들 새로운 기능다시말해 사용자가 5을 더하고 싶으면 어떤 input에 5를 입력해서 버튼을 누르면 5가 더해지고, 10을 더하고 싶으면 10을 입력하고 버튼을 눌렀을 때 10이 더해지는 프로그램인 것 입니다.
+
+우리는 이전 챕터에서 +1 기능과 -1 기능을 만들었습니다. 근데 우리가 만약 1로 정해진 기능을 만드는 것이 아니라 증가 시킬 숫자를 카운터 프로그램을 사용하는 사용자가 직접 정할 수 있게 기능을 만드려면 어떻게 해야 할까요?
+
+ 
+
+(2) Payload란 무엇인가?
+
+우리가 이전까지 만든 기능은 리듀서에게 “더 해" 라고만 말을 했습니다. 1이라는 것은 우리가 임의적으로 정해서 리듀서에게 액션 객체를 보냈죠. 이렇게 State를 변경하는데 있어 만약 리듀서에게 어떤 값을 같이 보내줘야 한다면 payload를 액션객체에 같이 담아 보냅니다. 코드로 보면 아래와 같아요. 이제 +1 이 아닌, +n 이므로 type의 value로 아래처럼 변경이 되어야 문맥적으로 맞겠지요?
+
+// payload가 추가된 액션객체
+
+{type: "ADD_NUMBER", payload: 10} // type뿐만 아니라 payload라는 key와 value를 같이 담는다.
+ 
+
+하지만 우리는 이제 “N을 더해” 라고 N을 같이 리듀서에서 보내야 합니다. 지금까지는 ~을 이라는 목적어가 없었다면, 이제는 그 목적어가 생긴것이고 목적어도 액션객체에 담아 같이 보내줘야 할 것 입니다. 이렇게 액션객체에 같이 담아 보내주는 그 것을 우리는 payload라고 합니다. 만약 10을 더해 라는 것을 리듀서에게 보내고 싶으면 액션객체에 paylod를 같이 담아주는 것 입니다.
+
+ 
+
+ 
+
+payload를 이용해서 기능 구현하기
+(1) payload를 이용해서 기능 구현 작업 순서
+
+사용자가 입력한 값을 받을 input 구현하기
+Action Creator 작성하기
+리듀서 작성하기
+구현된 기능 테스트 하기
+기능 구현은 아래 순서대로 작업할 것 입니다.
+
+(2) 사용자가 입력한 값을 받을 input 구현하기대략적인 html을 마크업 해줍니다. input과 button 2개를 아래와 같이 작성합니다.그리고 input의 값을 state로 관리하기 위해 훅을 사용하여 state 사용하고, 이벤트핸들러 (onChangeHandler)를 작성하여 input과 연결해줍니다.
+
+// src/App.js
+
+import React from "react";
+import { useState } from "react";
+
+const App = () => {
+  const [number, setNumber] = useState(0);
+
+  const onChangeHandler = (evnet) => {
+    const { value } = evnet.target;
+		// event.target.value는 문자열 입니다.
+		// 이것을 숫자형으로 형변환해주기 위해서 +를 붙여 주었습니다.
+    setNumber(+value);
+  };
+
+	// 콘솔로 onChangeHandler가 잘 연결되었는지 확인해봅니다.
+	// input에 값을 넣을 때마다 콘솔에 그 값이 찍히면 연결 성공!
+  console.log(number);
+
+  return (
+    <div>
+      <input type="number" onChange={onChangeHandler} />
+      <button>더하기</button>
+      <button>빼기</button>
+    </div>
+  );
+};
+
+export default App;
+이번 예시코드에서는 input의 onChange 핸들러를 input안에서 인라인으로 작성하지 않고, 위쪽에서 함수를 별도로 분리하여 작성하고, 그것을 넣어주는 방식으로 작성해보았습니다.
+
+사용자가 더하고자고 하는 값을 입력할 수 있는 input을 구현해봅시다. 기존에 App.js에 작성했던 코드를 모두 지우고 다시 처음부터 구현해보겠습니다.
+
+ 
+
+(3) counter.js 모듈 작성: Action Creator먼저 우리가 작성해야할 것을 리스트업 해봅니다. 총 5개를 작성해야겠지요.
+
+// src/redux/modules/counter.js
+
+// Action Value
+
+// Action Creator
+
+// Initial State
+
+// Reducer
+
+// export default reducer
+Action value와 Action Creator를 아래와 같이 작성합니다.인자로 payload를 넣어줌으로써 Action Creator가 액션객체를 생성할때 payload를 같이 담아 생성하는 원리이기 때문입니다.✅ 
+
+지금까지 작성한 Action Creator와 조금 차이가 있습니다. payload가 필요한 Action Creator에서는 함수를 선언할 때 매개변수 자리에 paylaod를 넣어줘야 합니다. 왜냐하면 Action Creator를 사용하는 컴포넌트에서 리듀서로 보내고자 하는 payload를 인자로 넣어줘야 하기 때문입니다.
+
+필자는 모듈을 만들 때, 빈 페이지에 만들어야 할 것을 리스트업 하고 작성하는 편 입니다. 구성요소가 많으니 빼먹지 않기 위함입니다.
+
+counter.js 로 이동해서 모듈을 작성해봅시다. 기존에 작성되어있던 코드를 모두 지우고 새로 작성해보겠습니다.
+
+(4) counter.js 모듈 작성: Initial State, Reducer, 내보내기(export default)
+
+// src/redux/modules/counter.js
+
+// .. 중략
+
+// Initial State
+const initialState = {
+  number: 0,
+};
+
+// Reducer 기본형태
+const counter = (state = initialState, action) => {
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
+
+// export default reducer
+export default counter;
+그리고 이어서 ADD_NUMBER의 로직을 아래와 같이 구현합니다.
+
+// 리듀서
+
+const counter = (state = initialState, action) => {
+  switch (action.type) {
+    case ADD_NUMBER:
+      return {
+				// state.number (기존의 nubmer)에 action.paylaod(유저가 더하길 원하는 값)을 더한다.
+        number: state.number + action.payload,
+      };
+    default:
+      return state;
+  }
+};
+사용자가 컴포넌트에서 Action Creator로 payload를 담아 보내는 것은 액션객체에 담겨지고, 그렇게 담겨진 것은 리듀서에서 action.payload에서 꺼내 사용할 수 있습니다. 그래서 그것을 이용해서 기존의 값에 더해줌으로써 기능을 구현하는 것이지요.
+
+Action Creator를 작성했으니, 이제 리듀서 로직도 작성해보겠습니다. 우선 Initial State와 리듀서의 기본 형태를 만들어줍니다. 그리고 파일의 마지막 부분에 export default 를 통해서 생성한 리듀서를 내보내줄게요.
+
+(5) 구현된 기능 테스트 하기우선, 첫째로 App.js에서 useSelector를 이용해서 Store의 값을 조회하고 그것을 화면상에 렌더링하는 기능을 추가하겠습니다.두번째로, Action Creator를 import 하고, payload를 담아 dispatch 해보겠습니다. 아래와 같이 코드를 추가 합니다. 1번부터 5번까지 순서대로 흐름을 따라가며 작성해보세요.다 작성했다면, 한번 테스트 해볼게요! 
+
+ 
+
+Ducks 패턴
+(1) Ducks 패턴이란?리덕스를 사용하기 위해서는 결국 우리가 리덕스의 구성요소를 모두 만들어야만 사용이 가능합니다. 근데 만약 리덕스 모듈을 개발하는 개발자마다 구성요소들을 제 각각 구현하면 어떨까요? 그리고 내가 그 개발자와 협업을 해야 하는 상황에 놓였을 때 수많은 파일 중에 내가 필요로 하는 구성요소를 찾는것이 쉬울까요?
+
+📌 Erik Rasmussn의 Ducks 제안
+
+그래서 Erik Rasmussn 라는 개발자가 이것을 패턴화하여 작성하는 것을 제안했는데, 그것이 바로 Ducks패턴입니다. Ducks 라는 이름은 리덕스의 덕스 라고 하네요. 심볼은 오리 입니다. 🐤
+
+리덕스를 배워보니 어떠신가요?
+
+(2) Duck 패턴으로 작성하기**Erik Rasmussn 가 제안한 Ducks 패턴은 아래의 내용을 지켜 모듈을 작성하는 것 입니다.**
+
+Reducer 함수를 export default 한다.
+Action creator 함수들을 export 한다.
+Action type은 app/reducer/ACTION_TYPE 형태로 작성한다.
+(외부 라이브러리로서 사용될 경우 또는 외부 라이브러리가 필요로 할 경우에는 UPPER_SNAKE_CASE 로만 작성해도 괜찮다.)어떤가요? “지금까지 왜 이렇게 작성을 하라고 했을까?” 라고 생각하셨던 수강생분들은 의문이 조금 풀리셨길 바랍니다. 그래서 앞으로 우리는 모든 리덕스 모듈을 Ducks 패턴으로 작성하도록 하겠습니다.
+
+그래서 모듈 파일 1개에 Action Type, Action Creator, Reducer 가 모두 존재하는 작성방식입니다.
+
+필자가 이 자료를 보고있는 수강생들에게 별도의 안내는 하지 않았지만, 사실 우리는 이미 Ducks 패턴으로 코드를 작성하고 있었습니다
+
+정리
+리듀서로 보내는 액션객체에 어떤 정보를 같이 담아보내고자 한다면 payload를 이용한다.
+
+payload는 Action Creator를 생성할 때 매개변수에 자리에서 받을 준비를 하고, 반환하는 액션객체에 payload라는 key와 받은 매개변수를 value로 하여 구현한다.
+
+리듀서에서 payload를 사용하고자 할 때는 action.payload로 사용할 수 있다.
+
+ES6에서 객체를 생성할 때 key와 value가 같으면 축약해서 작성할 수 있다.
+
+Ducks 패턴은 Erik Rasmussn 이 제안했고, 현재 리덕스 모듈 작성방법의 정석으로 여겨지고 있다.
+
+ 
+
+ 
+
+ 
+
+ 출처 - 스파르타코딩클럽(항해99과정):https://hanghae99.spartacodingclub.kr/
