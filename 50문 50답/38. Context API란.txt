@@ -1,0 +1,7 @@
+일반적으로 부모와 자식간 props를 날려 state를 변화시키는 것과는 달리 
+context api는 컴포넌트 간 간격이 없습니다. 
+즉, 컴포넌트를 건너띄고 다른 컴포넌트에서 state, function을 사용할 수 있습니다. 
+또한 redux의 많은 어려운 개념보다 context api는 
+Provider, Consumer, createContext 개념만 알면 적용가능합니다.
+
+리덕스의 store 개념과 비슷한듯.
