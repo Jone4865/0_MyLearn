@@ -1,0 +1,3 @@
+JavaScript를 사용한 비동기 통신, 클라이언트와 서버간에 XML 데이터를 주고받는 기술
+
+https://velog.io/@surim014/AJAX란-무엇인가
