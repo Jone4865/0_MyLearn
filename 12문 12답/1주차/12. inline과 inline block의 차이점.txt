@@ -1,0 +1,8 @@
+block
+부모 컨테이너의 너비를 채웁니다.
+새 줄에서 시작하고, 그 옆에 HTML 요소를 허용하지 않습니다 (float을 추가 할 때 제외)
+inline block
+내용에 의존해 크기가 달라집니다
+옆에 다른 요소가 존재하는 것을 허용합니다. 
+
+https://ruden91.github.io/blog/inline-vs-block-vs-inline-block/
