@@ -1,0 +1,9 @@
+메모이제이션: 프로그래밍에서 반복되는 결과를 메모리에 저장 해놓고 다음에 같은 결과가 나올 때 다시 계산할 필요없이 빨리 실행 하는 기법
+
+useMemo: 메모이제이션된 '값'을 반환한다.
+useCallback:메모이제이션된 '함수'를 반환한다.
+ (uM은 함수를 실행시키고,uC은 함수를 반환시킴)
+useMemo는 콜백 함수의 연산 반환값을, useCallback은 콜백 자체를 메모이제이션하는 기능 차이가 있다.
+
+https://basemenks.tistory.com/238
+https://frontsom.tistory.com/11
