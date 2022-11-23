@@ -1,0 +1,7 @@
+ES6의 Promise를 이용할 수 있다.
+Promise는 new 연산자와 함께 호출하고 인자로 콜백을 받는다.
+Promise는 Promise를 반환한다.
+Promise는 호출될 때 바로 실행되지만 그 안에 콜백은 resolve, reject 둘 중 하나가 호출 되기 전에 then 또는 catch로 넘어가지 않는다.
+resolve, reject 로 성공 혹은 실패로 결과 값을 나타내어 다음 작업을 체이닝할 수 있다. (즉, 비동기 제어가 가능하다.)
+.then으로 작업을 이어가기 위해서는 resolve() 함수를 호출한다.
+작업을 중단 혹은 err 처리를 위해서는 reject() 함수를 호출한다.
