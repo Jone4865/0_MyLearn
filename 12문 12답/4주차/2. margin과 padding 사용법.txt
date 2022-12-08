@@ -1,0 +1,7 @@
+Margin은 Border 바깥쪽을 차지한다. 주변 요소와 거리를 두기 위한 영역이다.
+
+Padding은 Content와 Border 사이의 여백을 나타낸는 영역이다. Content 영역이 배경색이나 배경 이미지를 가질 때, 이 Padding 영역까지도 영향을 미친다. 즉, Padding 영역도 Content의 연장으로 볼 수 있다.
+
+그 외의 차이점?
+음수값: Margin만 적용 가능
+auto: Margin만 적용 가능
